@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
-var Schema = mongoose.Schema({
+
+let Schema = mongoose.Schema;
+let userSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
@@ -11,4 +13,8 @@ var Schema = mongoose.Schema({
     password: String,
 });
 
-export default mongoose.model('User', Schema);
+userSchema.statics.getUser = function (username, callback) {
+    return this.findOne({ username: username }, callback);
+}
+
+export default mongoose.model('User', userSchema);
