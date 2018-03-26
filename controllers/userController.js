@@ -17,6 +17,7 @@ export const register = (req, res) => {
         } else {
             const newUser = new User(req.body);
 
+            newUser.role = 3;
             if (newUser.password) {
                 newUser.password = bcrypt.hashSync(newUser.password, config.BCRYPT_SALT_ROUNDS);
             }
@@ -67,7 +68,7 @@ export const login = (req, res) => {
                     'username': user.username,
                     'email': user.email
                 },
-                'token': jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: 60 * 60 })
+                'token': jwt.sign({ user }, config.JWT_SECRET, { expiresIn: 60 * 60 })
             });
         }
 

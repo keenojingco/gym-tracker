@@ -11,6 +11,7 @@ let userSchema = new Schema({
     email: String,
     username: String,
     password: String,
+    role: Number
 });
 
 userSchema.statics.getUser = function (username, callback) {
