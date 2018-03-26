@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import bb from 'express-busboy';
 
 // import routes
-import config from './config'
+import config from './config/config'
 import todoRoutes from './routes/todo';
 import userRoutes from './routes/user';
 import SourceMapSupport from 'source-map-support';

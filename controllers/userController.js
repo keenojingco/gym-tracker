@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import config from '../config';
+import config from '../config/config';
 import User from '../models/user';
+import Role from '../config/roles';
 
 /**
  * Register new user
