@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import config from '../config';
+import config from '../config/config';
 import User from '../models/user';
+import Role from '../config/roles';
 
 /**
  * Register new user
  */
 export const register = (req, res) => {
-    User.findOne({ username: req.body.username }).exec((err, user) => {
+    User.getUser(req.body.username, function (err, user) {
         if (err) {
             return res.json({ 'success': false, 'message': err });
         }
@@ -17,6 +18,7 @@ export const register = (req, res) => {
         } else {
             const newUser = new User(req.body);
 
+            newUser.role = 3;
             if (newUser.password) {
                 newUser.password = bcrypt.hashSync(newUser.password, config.BCRYPT_SALT_ROUNDS);
             }
@@ -36,7 +38,7 @@ export const register = (req, res) => {
  * Get user by username
  */
 export const getUser = (req, res) => {
-    User.findOne({ username: req.params.username }).exec((err, user) => {
+    User.getUser(req.params.username, function (err, user) {
         if (err) {
             return res.json({ 'success': false, 'message': err });
         }
@@ -62,12 +64,12 @@ export const login = (req, res) => {
             return res.json({
                 'success': true,
                 'message': 'User authenticated',
-                'user' : {
+                'user': {
                     'name': user.firstName + ' ' + user.lastName,
                     'username': user.username,
                     'email': user.email
                 },
-                'token': jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: 60*60 })
+                'token': jwt.sign({ user }, config.JWT_SECRET, { expiresIn: 60 * 60 })
             });
         }
 

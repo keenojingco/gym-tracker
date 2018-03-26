@@ -1,5 +1,5 @@
-var jwt = require('jsonwebtoken');
-var config = require('../config.js');
+import jwt from 'jsonwebtoken';
+import config from '../config/config.js'
 
 module.exports = function (req, res, next) {
     /*
